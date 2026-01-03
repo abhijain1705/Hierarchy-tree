@@ -1,3 +1,4 @@
+import React from "react";
 import type { TreeNode } from "../types";
 import "../styles/tree-node.css";
 import { memo } from "react";
