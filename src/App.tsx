@@ -4,7 +4,7 @@ import InfinityCanvas from "./components/infinityCanvas";
 import Arena from "./components/arena";
 import Node from "./components/node";
 import { vesselHierarchy } from "./mock.data";
-import { ConnectProvider } from "react-connect-lines";
+import { ConnectProvider } from "./lib/index";
 import { useApp } from "./hook/useApp";
 
 function App() {

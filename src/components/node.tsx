@@ -5,7 +5,7 @@ import { memo } from "react";
 import plus from "../icons/plus.svg";
 import minus from "../icons/minus.svg";
 import { motion } from "framer-motion";
-import { Connect } from "react-connect-lines";
+import { Connect } from "../lib/index";
 
 type NodeProps = {
   node: TreeNode;

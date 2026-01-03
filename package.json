@@ -13,9 +13,7 @@
     "@tailwindcss/typography": "^0.5.19",
     "@tailwindcss/vite": "^4.1.18",
     "framer-motion": "^12.23.26",
-    "prop-types": "^15.8.1",
     "react": "^18.2.0",
-    "react-connect-lines": "^0.0.4",
     "react-dom": "^18.2.0",
     "tailwindcss": "^4.1.18"
   },
