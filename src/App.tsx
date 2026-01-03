@@ -1,4 +1,3 @@
-import React from "react";
 import "./App.css";
 import InfinityCanvas from "./components/infinityCanvas";
 import Arena from "./components/arena";

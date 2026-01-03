@@ -1,6 +1,6 @@
 import type { TreeNode } from "../types";
 import "../styles/tree-node.css";
-import React, { memo } from "react";
+import { memo } from "react";
 import plus from "../icons/plus.svg";
 import minus from "../icons/minus.svg";
 import { motion } from "framer-motion";
