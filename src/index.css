@@ -1,0 +1,47 @@
+@import "tailwindcss";
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  height: 100vh;
+  width: 100vw;
+}
+
+:root {
+  /* Typography */
+  --node-font-size: 13px;
+  --node-font-weight: 500;
+  --node-border-radius: 6px;
+
+  /* Spacing */
+  --node-padding-y: 20px;
+  --node-padding-x: 20px;
+  --node-gap: 6px;
+
+  /* Equipment Type */
+  --equipment-type-bg: #e7f0ff;
+  --equipment-type-text: #1d4ed8;
+  --equipment-type-hover: #dbeafe;
+
+  /* Equipment */
+  --equipment-bg: #e6f7f1;
+  --equipment-text: #047857;
+  --equipment-hover: #d1fae5;
+
+  /* Assembly */
+  --assembly-bg: #fef3c7;
+  --assembly-text: #92400e;
+  --assembly-hover: #fde68a;
+
+  /* Component */
+  --component-bg: #f3f4f6;
+  --component-text: #374151;
+  --component-hover: #e5e7eb;
+}

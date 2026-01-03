@@ -1,0 +1,55 @@
+.tree-node {
+  align-items: center;
+  gap: var(--node-gap);
+
+  font-size: var(--node-font-size);
+  font-weight: var(--node-font-weight);
+
+  padding: var(--node-padding-y) var(--node-padding-x);
+  border-radius: var(--node-border-radius);
+
+  user-select: none;
+  transition: background-color 0.15s ease;
+
+  width: max-content;
+  height: max-content;
+  display: block;
+  z-index: 1000;
+  position: relative;
+}
+
+.tree-node--equipment_type {
+  background-color: var(--equipment-type-bg);
+  color: var(--equipment-type-text);
+}
+
+.tree-node--equipment_type:hover {
+  background-color: var(--equipment-type-hover);
+}
+
+.tree-node--equipment {
+  background-color: var(--equipment-bg);
+  color: var(--equipment-text);
+}
+
+.tree-node--equipment:hover {
+  background-color: var(--equipment-hover);
+}
+
+.tree-node--assembly {
+  background-color: var(--assembly-bg);
+  color: var(--assembly-text);
+}
+
+.tree-node--assembly:hover {
+  background-color: var(--assembly-hover);
+}
+
+.tree-node--component {
+  background-color: var(--component-bg);
+  color: var(--component-text);
+}
+
+.tree-node--component:hover {
+  background-color: var(--component-hover);
+}
