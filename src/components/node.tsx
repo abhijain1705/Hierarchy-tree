@@ -28,31 +28,31 @@ const Node = memo(({ node, expandedMap, toggle }: NodeProps) => {
         connectWith={
           hasChildren && expanded
             ? children!.map((child) => ({
-                id: child.id,
-                edge: "step",
-              }))
+              id: child.id,
+              edge: "step",
+            }))
             : []
         }
       >
-        <div id={id}>
-          <motion.div
-            drag
-            dragMomentum={false}
-            initial={{ scale: 0.5 }}
-            animate={{ scale: 1 }}
-            className={nodeClass}
-          >
-            <span>{name}</span>
-            {hasChildren && (
-              <button
-                className="absolute bg-amber-50 rounded-full p-2 bottom-0.5 right-0.5"
-                onClick={() => toggle(id)}
-              >
-                <img src={expanded ? minus : plus} alt="toggle" />
-              </button>
-            )}
-          </motion.div>
-        </div>
+        <motion.div
+          id={id}
+          drag
+          dragMomentum={false}
+          initial={{ scale: 0.5 }}
+          animate={{ scale: 1 }}
+          className={nodeClass}
+          onAnimationComplete={() => window.dispatchEvent(new Event("resize"))}
+        >
+          <span>{name}</span>
+          {hasChildren && (
+            <button
+              className="absolute bg-amber-50 rounded-full p-2 bottom-0.5 right-0.5"
+              onClick={() => toggle(id)}
+            >
+              <img src={expanded ? minus : plus} alt="toggle" />
+            </button>
+          )}
+        </motion.div>
       </Connect>
       {/* Children are ALWAYS mounted */}
       {hasChildren && (

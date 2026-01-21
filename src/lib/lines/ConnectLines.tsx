@@ -1,6 +1,6 @@
-import {useCallback, useEffect, useMemo, useRef, useState} from 'react'
-import {ConnectElement, Edge, Stroke} from '../types'
-import {getElement, getGroupedConnections, getPathData, pathify} from './utils'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { ConnectElement, Edge, Stroke } from '../types'
+import { getElement, getGroupedConnections, getPathData, pathify } from './utils'
 
 const SVG_STYLE: React.CSSProperties = {
   position: 'fixed',
@@ -18,12 +18,12 @@ const EMPTY_ARRAY: [] = []
 
 type PointsData = (
   | {
-      rect: DOMRect | undefined
-      color: string | undefined
-      edge: Edge
-      stroke: Stroke
-      d: string
-    }
+    rect: DOMRect | undefined
+    color: string | undefined
+    edge: Edge
+    stroke: Stroke
+    d: string
+  }
   | undefined
 )[]
 
@@ -34,7 +34,10 @@ interface ConnectLinesProps {
 export function ConnectLines(props: ConnectLinesProps) {
   const [pointsData, setPointsData] = useState<PointsData>(EMPTY_ARRAY)
   const [isInteracting, setIsInteracting] = useState<boolean>(false)
-  const {elements} = props
+  const { elements } = props
+  const elementsRef = useRef(elements)
+  elementsRef.current = elements
+
   const raf = useRef<number>()
 
   /**
@@ -71,25 +74,25 @@ export function ConnectLines(props: ConnectLinesProps) {
        *    }[]
        *  }
        */
-      const groupedConnections = getGroupedConnections({elements})
+      const groupedConnections = getGroupedConnections({ elements: elementsRef.current })
 
       const points = groupedConnections
         .map((data) => {
-          const {from, to: toArray} = data || {}
+          const { from, to: toArray } = data || {}
 
           const pathDataArr = toArray?.map((to) => {
             /**
              * The `getPathData` function returns an array of objects with
              * x and y coordinates for the line.
              */
-            const pathData = getPathData({from: from, to: to})
+            const pathData = getPathData({ from: from, to: to })
 
             if (!pathData) return
 
             /**
              * The `pathify` functions returns a svg-readable string of the coordinates
              */
-            const path = pathify({paths: pathData, edge: to?.edge})
+            const path = pathify({ paths: pathData, edge: to?.edge })
 
             /**
              * Dummy validation of the path
@@ -114,7 +117,7 @@ export function ConnectLines(props: ConnectLinesProps) {
 
       setPointsData(data)
     })
-  }, [elements])
+  }, [])
 
   /**
    * Handle drag and drop gestures and update the paths
@@ -133,11 +136,11 @@ export function ConnectLines(props: ConnectLinesProps) {
 
   useEffect(() => {
     handleCalcLines()
-  }, [handleCalcLines])
+  }, [handleCalcLines, elements]) // Trigger calculation when elements change
 
   useEffect(() => {
-    window.addEventListener('resize', handleCalcLines, {passive: true})
-    window.addEventListener('scroll', handleCalcLines, {passive: true})
+    window.addEventListener('resize', handleCalcLines, { passive: true })
+    window.addEventListener('scroll', handleCalcLines, { passive: true })
 
     return () => {
       window.removeEventListener('resize', handleCalcLines)
@@ -151,12 +154,12 @@ export function ConnectLines(props: ConnectLinesProps) {
     elements.forEach((el) => {
       const element = getElement(el)
 
-      element?.addEventListener('mousedown', handleStartInteracting, {passive: true})
-      element?.addEventListener('mouseup', handleStopInteracting, {passive: true})
-      element?.addEventListener('mousemove', handleUpdateLines, {passive: true})
-      element?.addEventListener('touchstart', handleStartInteracting, {passive: true})
-      element?.addEventListener('touchend', handleStopInteracting, {passive: true})
-      element?.addEventListener('touchmove', handleUpdateLines, {passive: true})
+      element?.addEventListener('mousedown', handleStartInteracting, { passive: true })
+      element?.addEventListener('mouseup', handleStopInteracting, { passive: true })
+      element?.addEventListener('mousemove', handleUpdateLines, { passive: true })
+      element?.addEventListener('touchstart', handleStartInteracting, { passive: true })
+      element?.addEventListener('touchend', handleStopInteracting, { passive: true })
+      element?.addEventListener('touchmove', handleUpdateLines, { passive: true })
 
       if (element) {
         ro.observe(element)
@@ -164,6 +167,8 @@ export function ConnectLines(props: ConnectLinesProps) {
     })
 
     return () => {
+      ro.disconnect() // Disconnect observer to avoid leaks/stale observations
+
       elements.forEach((el) => {
         const element = getElement(el)
 
@@ -173,11 +178,6 @@ export function ConnectLines(props: ConnectLinesProps) {
         element?.removeEventListener('touchstart', handleStartInteracting)
         element?.removeEventListener('touchend', handleStopInteracting)
         element?.removeEventListener('touchmove', handleUpdateLines)
-
-        if (element) {
-          ro.disconnect()
-          ro.unobserve(element)
-        }
       })
     }
   }, [
